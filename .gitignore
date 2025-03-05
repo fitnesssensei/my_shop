@@ -1,0 +1,4 @@
+shop/.gitignor/venv
+shop/.gitignor/db.sqlite3
+shop/.gitignor/media
+shop/.gitignor/__pycache__

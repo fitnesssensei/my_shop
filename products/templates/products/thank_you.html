@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Спасибо за заказ!</title>
+</head>
+<body>
+    <h1>Спасибо, {{ order.name }}!</h1>
+    <p>Ваш заказ оформлен. Сумма: {{ order.total_price }} руб.</p>
+    <a href="{% url 'product_list' %}">Вернуться в магазин</a>
+</body>
+</html>
