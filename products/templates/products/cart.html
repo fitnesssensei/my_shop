@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Ваши товары в Корзине</h1>
+    <ul>
+        {% for product_id, item in cart.items %}
+            <li>
+                <h2>{{ item.name }}</h2>
+                <p>Цена: {{ item.price|floatformat:2 }} руб.</p>
+                <p>Количество: {{ item.quantity }}</p>
+                <p>Итого за товар: {{ item.total|floatformat:2 }} руб.</p>
+                <!-- Ссылка для удаления товара из корзины -->
+                <a href="{% url 'remove_from_cart' product_id %}">Удалить из корзины</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <p><strong>Общая сумма:</strong> {{ total_price|floatformat:2 }} руб.</p>
+    <a href="{% url 'checkout' %}">Оформить заказ</a>
+    <a href="{% url 'product_list' %}">Вернуться к списку товаров</a>
+</body>
+</html>
