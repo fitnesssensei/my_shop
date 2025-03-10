@@ -1,0 +1,4 @@
+django
+gunicorn
+whitenoise  # для статических файлов
+psycopg2-binary  # для PostgreSQL

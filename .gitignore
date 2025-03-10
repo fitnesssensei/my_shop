@@ -1,4 +1,7 @@
+shop/*.pyc
+shop/.gitignor/__pycache__
 shop/.gitignor/venv
 shop/.gitignor/db.sqlite3
+shop/.static
 shop/.gitignor/media
-shop/.gitignor/__pycache__
+shop/.env
