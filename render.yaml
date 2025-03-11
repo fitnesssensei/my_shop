@@ -14,7 +14,7 @@ services:
         fromDatabase:
           name: mysite
           property: connectionString
-      - key: SECRET_KEY
-        generateValue: true
+      - key: PYTHON_VERSION
+        Value: 3.11.11
       - key: WEB_CONCURRENCY
         value: 4
