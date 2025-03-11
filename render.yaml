@@ -5,10 +5,10 @@ databases:
 
 services:
   - type: web
-    name: mysite
+    name: django-app
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn shop_project.wsgi:application"
+    startCommand: "gunicorn shop.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
