@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('products.urls')),  # добавляем пути из приложения products
-]
+    path('', include('products.urls')),
+] + static(setting.MEDIA_URL, document_root=setting.MEDIA_ROOT)
 
 
 if settings.DEBUG:  # Эта настройка работает только в режиме разработки (DEBUG = True)
