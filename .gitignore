@@ -6,3 +6,5 @@ shop/.static
 shop/.gitignor/media/*
 !media/.gitkeep
 shop/.env
+staticfiles/
+media/*
