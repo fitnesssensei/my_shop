@@ -3,8 +3,8 @@ from .models import Product
 
 def product_list(request):
     products = Product.objects.all()  # Получить все товары из базы
+    print(f"Number of products: {products.count()}")  # Для отладки
     return render(request, 'products/product_list.html', {'products': products})
-
 
 
 from django.shortcuts import redirect, render, get_object_or_404

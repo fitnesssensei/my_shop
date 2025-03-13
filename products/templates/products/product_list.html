@@ -7,11 +7,12 @@
 </head>
 <body>
     <h1>Список товаров</h1>
-    <ul>
+
+    {% if products %}
+        <ul>
         {% for product in products %}
             <li>
-                <h2>{{ product.name }}</h2>
-                <div>{{ product.description|linebreaks }}</div>
+                <h2>{{ product.name }}</h2>                    <div>{{ product.description|linebreaks }}</div>
                 <p>Цена: {{ product.price }} руб.</p>
                 <p>В наличии: {{ product.stock }} шт.</p>  <!-- Новая строка -->
 
@@ -26,6 +27,9 @@
                 {% endif %}
             </li>
         {% endfor %}
-    </ul>
+        </ul>
+    {% else %}
+        <p>Нет доступных товаров</p>
+    {% endif %}
 </body>
 </html>
