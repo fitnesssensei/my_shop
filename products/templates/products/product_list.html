@@ -11,7 +11,7 @@
         {% for product in products %}
             <li>
                 <h2>{{ product.name }}</h2>
-                <p>Описание: {{ product.description }}</p>
+                <div>{{ product.description|linebreaks }}</div>
                 <p>Цена: {{ product.price }} руб.</p>
                 <p>В наличии: {{ product.stock }} шт.</p>  <!-- Новая строка -->
 
