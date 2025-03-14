@@ -31,7 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://*.lhr.life',
     'https://*.localhost.run',
     'http://*.localhost.run',
-
+]
 # Для безопасности в продакшене эти настройки нужно будет изменить
 CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = ['*']  #разрешаем все хосты для демонстрации
