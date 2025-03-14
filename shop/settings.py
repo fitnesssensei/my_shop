@@ -25,7 +25,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = ['*']
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.lhr.life',  # Для localhost.run
+    'http://*.lhr.life',
+    'https://*.localhost.run',
+    'http://*.localhost.run',
+
+# Для безопасности в продакшене эти настройки нужно будет изменить
+CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = ['*']  #разрешаем все хосты для демонстрации
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:

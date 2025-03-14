@@ -81,7 +81,7 @@ def checkout(request):
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        if form.is_valid():
+
             # проверяем хватает ли товара для каждого продукта в корзине
             for product_id, item in cart.items():
                 product = Product.objects.get(id=product_id)
@@ -89,6 +89,9 @@ def checkout(request):
                     messages.error(request, f"Товара '{product.name}' недостаточно в наличии!")
                     return redirect('view_cart')
 
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
             # Если все проверки пройдены, создаем заказ
             order = form.save(commit=False)
             order.total_price = sum(item['price'] * item['quantity'] for item in cart.values())  # Подсчет суммы
