@@ -1,32 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список товаров</title>
+    <title>ГОРЫ КНИГ</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Заголовок */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        /* ГОРЫ КНИГ */
+        .product-list {
+            list-style: none;
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Карточка товара */
+        .product-item {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+        }
+
+        /* Название товара */
+        .product-name {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            color: #222;
+        }
+
+        /* Описание товара */
+        .product-description {
+            white-space: pre-line;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Цена */
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Количество на складе */
+        .product-stock {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Изображение товара */
+        .product-image {
+            max-width: 200px;
+            height: auto;
+            margin: 15px 0;
+        }
+
+        /* Кнопка добавления в корзину */
+        .add-to-cart-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            border: 2px solid #333;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        /* Нет в наличии */
+        .out-of-stock {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #f8f8f8;
+            color: #999;
+            border: 2px solid #eee;
+            border-radius: 3px;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Список товаров</h1>
+    <div class="header">
+        <h1>ГОРЫ КНИГ</h1>
+    </div>
 
-    {% if products %}
-        <ul>
-        {% for product in products %}
-            <li>
-                <h2>{{ product.name }}</h2>                    <div>{{ product.description|linebreaks }}</div>
-                <p>Цена: {{ product.price }} руб.</p>
-                <p>В наличии: {{ product.stock }} шт.</p>  <!-- Новая строка -->
+    {%if products %}  <!-- Добавляем проверку наличия товаров в начале -->
+        <ul class="product-list">
+            {% for product in products %}
+                <li class="product-item">
+                    <h2 class="product-name">{{ product.name }}</h2>
+                    <p class="product-description">{{ product.description }}</p>
+                    <p class="product-price">Цена: {{ product.price }} руб.</p>
+                    <p class="product-stock">В наличии: {{ product.stock }} шт.</p>
+                
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                    {% endif %}
 
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
-                {% endif %}
-
-                {% if product.stock > 0%}
-                    <a href="{% url 'add_to_cart' product.id %}">добавить в корзину</a>
-                {% else %}
-                    <p style="color: red;">Нет в наличии</p>  <!-- Если товара  нет-->
-                {% endif %}
-            </li>
-        {% endfor %}
+                    {% if product.stock > 0 %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
+                            Добавить в корзину
+                        </a>
+                    {% else %}
+                        <p class="out-of-stock">Нет в наличии</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
         </ul>
     {% else %}
         <p>Нет доступных товаров</p>

@@ -1,14 +1,15 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect  # Добавил этот импорт
 from .models import Product
+from django.shortcuts import redirect, render, get_object_or_404
+from .models import Product
+
 
 def product_list(request):
     products = Product.objects.all()  # Получить все товары из базы
     print(f"Number of products: {products.count()}")  # Для отладки
     return render(request, 'products/product_list.html', {'products': products})
 
-
-from django.shortcuts import redirect, render, get_object_or_404
-from .models import Product
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)  # Получаем товар или 404, если его нет
@@ -52,7 +53,7 @@ def view_cart(request):
     return render(request, 'products/cart.html', {
         'cart': updated_cart,
         'total_price': total_price
-        })  # Передаем корзину и общ сумму в шаблон
+    })  # Передаем корзину и общ сумму в шаблон
 
 
 def remove_from_cart(request, product_id):
@@ -73,6 +74,7 @@ from django.contrib import messages  # добав всплывающее соо�
 from .models import Order, OrderItem, Product
 from .forms import OrderForm
 
+@csrf_protect
 def checkout(request):
     cart = request.session.get('cart', {})
     
@@ -83,11 +85,11 @@ def checkout(request):
         form = OrderForm(request.POST)
 
             # проверяем хватает ли товара для каждого продукта в корзине
-            for product_id, item in cart.items():
-                product = Product.objects.get(id=product_id)
-                if item['quantity'] > product.stock:
-                    messages.error(request, f"Товара '{product.name}' недостаточно в наличии!")
-                    return redirect('view_cart')
+        for product_id, item in cart.items():
+            product = Product.objects.get(id=product_id)
+            if item['quantity'] > product.stock:
+                messages.error(request, f"Товара '{product.name}' недостаточно в наличии!")
+                return redirect('view_cart')
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
