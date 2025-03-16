@@ -1,12 +1,211 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Спасибо за заказ!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Шапка */
+        .top-header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .site-title {
+            font-size: 24px;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Контейнер для содержимого */
+        .thank-you-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 3px;
+            border: 1px solid #eee;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Иконка успеха */
+        .success-icon {
+            color: #4CAF50;
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* Заголовок */
+        .thank-you-title {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Информация о заказе */
+        .order-info {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 3px;
+            text-align: left;
+        }
+
+        .order-info p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .order-number {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Кнопка возврата в магазин */
+        .return-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            border: 2px solid #333;
+            margin-top: 20px;
+        }
+
+        .return-button:hover {
+            background-color: white;
+            color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Дополнительная информация */
+        .additional-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Добавляем стили для списка товаров */
+        .order-items {
+            margin: 30px 0;
+            background-color: #f8f8f8;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .order-items-title {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-quantity {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #333;
+            margin-left: 20px;
+        }
+
+        .order-items-total {
+            background-color: #f0f0f0;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #333;
+            border-top: 2px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <h1>Спасибо, {{ order.name }}!</h1>
-    <p>Ваш заказ оформлен. Сумма: {{ order.total_price }} руб.</p>
-    <a href="{% url 'product_list' %}">Вернуться в магазин</a>
+    <div class="top-header">
+        <h1 class="site-title">Магазин</h1>
+    </div>
+
+    <div class="thank-you-container">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h1 class="thank-you-title">Спасибо за заказ, {{ order.name }}!</h1>
+        
+        <div class="order-info">
+            <p class="order-number">Номер заказа: #{{ order.id }}</p>
+            <p>Дата заказа: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+            <p>Email для связи: {{ order.email }}</p>
+            <p>Адрес доставки: {{ order.address }}</p>
+        </div>
+
+        <!-- Добавляем список заказанных товаров -->
+        <div class="order-items">
+            <h3 class="order-items-title">Ваш заказ</h3>
+            {% for item in order.items.all %}
+                <div class="order-item">
+                    <div class="item-details">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-quantity">Количество: {{ item.quantity }} шт.</div>
+                    </div>
+                    <div class="item-price">{{ item.price|floatformat:2 }} руб.</div>
+                </div>
+            {% endfor %}
+            <div class="order-items-total">
+                <span>Итого:</span>
+                <span>{{ order.total_price|floatformat:2 }} руб.</span>
+            </div>
+        </div>
+
+        <div class="additional-info">
+            <p>Мы отправили подтверждение заказа на ваш email.</p>
+            <p>Наш менеджер свяжется с вами в ближайшее время для уточнения деталей.</p>
+        </div>
+
+        <a href="{% url 'product_list' %}" class="return-button">
+            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+            Вернуться в магазин
+        </a>
+    </div>
 </body>
 </html>

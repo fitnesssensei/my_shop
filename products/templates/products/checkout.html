@@ -1,16 +1,248 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оформление заказа</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Шапка */
+        .top-header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .site-title {
+            font-size: 24px;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Контейнер для содержимого */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Форма оформления */
+        .checkout-form {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            border: 1px solid #eee;
+        }
+
+        .form-title {
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #333;
+        }
+
+        /* Стили для полей формы */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #333;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Сводка заказа */
+        .order-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            border: 1px solid #eee;
+        }
+
+        .summary-title {
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #333;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-quantity {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .item-price {
+            font-weight: bold;
+        }
+
+        .order-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Кнопка оформления */
+        .submit-button {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            border: 2px solid #333;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .submit-button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        /* Кнопка возврата в корзину */
+        .return-to-cart {
+            display: inline-block;
+            padding: 12px 24px;
+            color: #666;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: color 0.2s ease;
+        }
+
+        .return-to-cart:hover {
+            color: #333;
+        }
+
+        .return-to-cart i {
+            margin-right: 8px;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Оформление заказа</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Отобразим поля формы -->
-        <button type="submit">Оформить заказ</button>
-    </form>
-    <a href="{% url 'view_cart' %}">Вернуться в корзину</a>
+    <div class="top-header">
+        <h1 class="site-title">Оформление заказа</h1>
+    </div>
+
+    <div class="checkout-container">
+        <!-- Форма оформления заказа -->
+        <div class="checkout-form">
+            <h2 class="form-title">Данные для доставки</h2>
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Имя:</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email:</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.address.id_for_label }}">Адрес доставки:</label>
+                    {{ form.address }}
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <i class="fas fa-check"></i> Оформить заказ
+                </button>
+            </form>
+
+            <a href="{% url 'view_cart' %}" class="return-to-cart">
+                <i class="fas fa-arrow-left"></i> Вернуться в корзину
+            </a>
+        </div>
+
+        <!-- Сводка заказа -->
+        <div class="order-summary">
+            <h2 class="summary-title">Ваш заказ</h2>
+            <div class="order-items">
+                {% for product_id, item in cart.items %}
+                    <div class="order-item">
+                        <div class="item-details">
+                            <div class="item-name">{{ item.name }}</div>
+                            <div class="item-quantity">{{ item.quantity }} шт.</div>
+                        </div>
+                        <div class="item-price">{{ item.price|floatformat:2 }} руб.</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="order-total">
+                <span>Итого к оплате:</span>
+                <span>{{ total_price|floatformat:2 }} руб.</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -3,6 +3,61 @@
 <head>
     <title>ГОРЫ КНИГ</title>
     <style>
+
+        /* Добавляем стили для шапки с корзиной */
+        .top-header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-title {
+            font-size: 24px;
+            margin: 0;
+            color: #333;
+        }
+        /* КОРЗИНА */
+        .cart-button {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #eed708;
+            color: rgb(8, 0, 0);
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            border: 2px solid #333;
+        }
+        /* КОРЗИНА ПРИ НАВЕДЕНИИ */
+        .cart-button:hover {
+            background-color: rgb(8, 0, 0);
+            color: #eed708;
+        }
+
+        .cart-icon {
+            margin-right: 15px;
+        }
+
+        .cart-counter {
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+
         /* Общие стили */
         body {
             font-family: Arial, sans-serif;
@@ -75,17 +130,17 @@
         .add-to-cart-btn {
             display: inline-block;
             padding: 12px 24px;
-            background-color: #333;
-            color: white;
+            background-color: #eed708;
+            color: rgb(8, 0, 0);
             text-decoration: none;
             border-radius: 3px;
             transition: all 0.2s ease;
             border: 2px solid #333;
         }
-
+        /* Кнопка добавления в корзину при наведении */
         .add-to-cart-btn:hover {
-            background-color: white;
-            color: #333;
+            background-color: rgb(8, 0, 0);
+            color: #eed708;
         }
 
         /* Нет в наличии */
@@ -98,14 +153,30 @@
             border-radius: 3px;
             margin: 0;
         }
+
+
     </style>
 </head>
 <body>
     <div class="header">
         <h1>ГОРЫ КНИГ</h1>
     </div>
+    <!-- Добавляем шапку с корзиной -->
+    <div class="top-header">
+        <h1 class="site-title">Магазин</h1>
+        <a href="{% url 'view_cart' %}" class="cart-button">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            Корзина
+            {% if request.session.cart %}
+                <span class="cart-counter">
+                    {{ request.session.cart|length }}
+                </span>
+            {% endif %}
+        </a>
+    </div>
 
     {%if products %}  <!-- Добавляем проверку наличия товаров в начале -->
+    <div class="main-content">
         <ul class="product-list">
             {% for product in products %}
                 <li class="product-item">
@@ -131,5 +202,6 @@
     {% else %}
         <p>Нет доступных товаров</p>
     {% endif %}
+    </div>
 </body>
 </html>
