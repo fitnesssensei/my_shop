@@ -2,9 +2,50 @@
 <html lang="en">
 <head>
     <title>ГОРЫ КНИГ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Общий стиль для всех кнопок */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background-color: #eed708;
+            color: #080000;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid #333;
+            cursor: pointer;
+            font-size: 16px;
+            gap: 10px;
+            width: 100%;
+            max-width: 240px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
 
-        /* Добавляем стили для шапки с корзиной */
+        .button:hover {
+            background-color: #080000;
+            color: #eed708;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        /* Стиль для неактивных кнопок */
+        .button.out-of-stock {
+            background-color: #f8f8f8;
+            color: #999;
+            border-color: #eee;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Стили для шапки */
         .top-header {
             background-color: white;
             padding: 15px 20px;
@@ -22,186 +63,128 @@
             margin: 0;
             color: #333;
         }
-        /* КОРЗИНА */
-        .cart-button {
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #eed708;
-            color: rgb(8, 0, 0);
-            text-decoration: none;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            border: 2px solid #333;
-        }
-        /* КОРЗИНА ПРИ НАВЕДЕНИИ */
-        .cart-button:hover {
-            background-color: rgb(8, 0, 0);
-            color: #eed708;
-        }
 
-        .cart-icon {
-            margin-right: 15px;
-        }
-
+        /* Стили для счетчика корзины */
         .cart-counter {
             background-color: #ff4444;
             color: white;
             border-radius: 50%;
-            padding: 2px 6px;
+            padding: 4px 8px;
             font-size: 12px;
             margin-left: 8px;
         }
 
-        .main-content {
+        /* Остальные стили */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
             padding: 20px;
         }
 
-
-        /* Общие стили */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            background: white;
         }
 
-        /* Заголовок */
+        .product-card img {
+            max-width: 200px;
+            height: auto;
+            margin: 10px 0;
+        }
+
+        .product-name {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .product-name:hover {
+            color: #3498db;
+        }
+
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
         .header {
             text-align: center;
             padding: 20px 0;
             margin-bottom: 30px;
+            background: #f8f9fa;
         }
 
-        /* ГОРЫ КНИГ */
-        .product-list {
-            list-style: none;
-            padding: 0;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            color: #333;
+        }
+
+        .main-content {
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
-
-        /* Карточка товара */
-        .product-item {
-            background: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            border-radius: 3px;
-        }
-
-        /* Название товара */
-        .product-name {
-            margin: 0 0 15px 0;
-            font-size: 24px;
-            color: #222;
-        }
-
-        /* Описание товара */
-        .product-description {
-            white-space: pre-line;
-            color: #666;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        /* Цена */
-        .product-price {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        /* Количество на складе */
-        .product-stock {
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        /* Изображение товара */
-        .product-image {
-            max-width: 200px;
-            height: auto;
-            margin: 15px 0;
-        }
-
-        /* Кнопка добавления в корзину */
-        .add-to-cart-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #eed708;
-            color: rgb(8, 0, 0);
-            text-decoration: none;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            border: 2px solid #333;
-        }
-        /* Кнопка добавления в корзину при наведении */
-        .add-to-cart-btn:hover {
-            background-color: rgb(8, 0, 0);
-            color: #eed708;
-        }
-
-        /* Нет в наличии */
-        .out-of-stock {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #f8f8f8;
-            color: #999;
-            border: 2px solid #eee;
-            border-radius: 3px;
-            margin: 0;
-        }
-
-
     </style>
 </head>
 <body>
     <div class="header">
         <h1>ГОРЫ КНИГ</h1>
     </div>
-    <!-- Добавляем шапку с корзиной -->
+
     <div class="top-header">
-        <h1 class="site-title">Магазин</h1>
-        <a href="{% url 'view_cart' %}" class="cart-button">
-            <i class="fas fa-shopping-cart cart-icon"></i>
+        <h1 class="site-title">Каталог товаров</h1>
+        <a href="{% url 'view_cart' %}" class="button">
+            <i class="fas fa-shopping-cart"></i>
             Корзина
-            {% if request.session.cart %}
-                <span class="cart-counter">
-                    {{ request.session.cart|length }}
-                </span>
-            {% endif %}
+            <span class="cart-counter">
+                {{ request.session.cart|length|default:0 }}
+            </span>
         </a>
     </div>
 
-    {%if products %}  <!-- Добавляем проверку наличия товаров в начале -->
     <div class="main-content">
-        <ul class="product-list">
-            {% for product in products %}
-                <li class="product-item">
-                    <h2 class="product-name">{{ product.name }}</h2>
-                    <p class="product-description">{{ product.description }}</p>
-                    <p class="product-price">Цена: {{ product.price }} руб.</p>
-                    <p class="product-stock">В наличии: {{ product.stock }} шт.</p>
-                
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                    {% endif %}
-
-                    {% if product.stock > 0 %}
-                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
-                            Добавить в корзину
-                        </a>
-                    {% else %}
-                        <p class="out-of-stock">Нет в наличии</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Нет доступных товаров</p>
-    {% endif %}
+        {% if products %}
+            <div class="product-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% endif %}
+                        
+                        <h2>
+                            <a href="{% url 'product_detail' product.id %}" class="product-name">
+                                {{ product.name }}
+                            </a>
+                        </h2>
+                        
+                        <p class="price">{{ product.price }} руб.</p>
+                        
+                        {% if product.stock > 0 %}
+                            <a href="{% url 'add_to_cart' product.id %}" class="button">
+                                <i class="fas fa-cart-plus"></i>
+                                Добавить в корзину
+                            </a>
+                        {% else %}
+                            <div class="button out-of-stock">
+                                <i class="fas fa-times-circle"></i>
+                                Нет в наличии
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Нет доступных товаров</p>
+        {% endif %}
     </div>
 </body>
 </html>

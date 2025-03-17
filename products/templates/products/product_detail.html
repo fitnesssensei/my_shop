@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>{{ product.name }}</title>
+    <style>
+
+        /* Общие стили для всех кнопок */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            gap: 10px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            background-color: #004080;
+        }
+
+        /* Специфичные стили для счетчика корзины */
+        .cart-counter {
+            background-color: #ff4444;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        /* оптимизация отображения описания */
+        .product-description {
+            white-space: pre-line;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+     
+
+        /* Добавляем стили для шапки с корзиной */
+        .prod-header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            /* Контейнер для кнопок действий */
+        .action-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Добавляем шапку с корзиной -->
+    <div class="prod-header">
+        <h1 class="site-title">{{ product.name }}</h1>
+        <a href="{% url 'view_cart' %}" class="button">
+            <i class="fas fa-shopping-cart"></i>
+            Корзина
+
+            <!-- добавил счетчик в корзину -->
+            <span class="cart-counter">
+                {{ request.session.cart|length|default:0 }}
+            </span>
+        </a>
+    </div>
+
+    <h1>{{ product.name }}</h1>
+    
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
+    {% endif %}
+    
+    <p>Цена: {{ product.price }} руб.</p>
+    <p>В наличии: {{ product.stock }} шт.</p>
+    
+    <div style="white-space: pre-line;">
+        <h2>Описание:</h2>
+        {{ product.description }}
+    </div>
+    <div class="action-buttons">
+        {% if product.stock > 0 %}
+            <a href="{% url 'add_to_cart' product.id %}" class="button">
+                <i class="fas fa-cart-plus"></i>
+                Добавить в корзину
+            </a>
+        {% else %}
+            <p style="color: red;">Нет в наличии</p>
+        {% endif %}
+    
+        <a href="{% url 'product_list' %}" class="button">
+            <i class="fas fa-arrow-left"></i>
+            Вернуться к списку
+        </a>
+    </div>
+
+</body>
+</html>

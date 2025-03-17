@@ -5,6 +5,14 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .models import Product
 
 
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'products/product_detail.html', {'product': product})
+
+
 def product_list(request):
     products = Product.objects.all()  # Получить все товары из базы
     print(f"Number of products: {products.count()}")  # Для отладки

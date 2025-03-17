@@ -15,6 +15,49 @@
             color: #333;
         }
 
+        /* Единый стиль для всех кнопок */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background-color: #eed708;
+            color: #080000;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid #333;
+            cursor: pointer;
+            font-size: 16px;
+            gap: 10px;
+            width: 100%;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .button:hover {
+            background-color: #080000;
+            color: #eed708;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        /* Стиль для второстепенных кнопок */
+        .button.secondary {
+            background-color: #f8f8f8;
+            color: #666;
+            border-color: #ddd;
+        }
+
+        .button.secondary:hover {
+            background-color: #eee;
+            color: #333;
+        }
+
         /* Шапка */
         .top-header {
             background-color: white;
@@ -43,7 +86,7 @@
         .checkout-form {
             background: white;
             padding: 30px;
-            border-radius: 3px;
+            border-radius: 8px;
             border: 1px solid #eee;
         }
 
@@ -89,7 +132,7 @@
         .order-summary {
             background: white;
             padding: 30px;
-            border-radius: 3px;
+            border-radius: 8px;
             border: 1px solid #eee;
         }
 
@@ -139,50 +182,15 @@
             font-weight: bold;
         }
 
-        /* Кнопка оформления */
-        .submit-button {
-            display: inline-block;
-            width: 100%;
-            padding: 15px;
-            background-color: #333;
-            color: white;
-            text-decoration: none;
-            border-radius: 3px;
-            transition: all 0.2s ease;
-            border: 2px solid #333;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .submit-button:hover {
-            background-color: white;
-            color: #333;
-        }
-
-        /* Кнопка возврата в корзину */
-        .return-to-cart {
-            display: inline-block;
-            padding: 12px 24px;
-            color: #666;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: color 0.2s ease;
-        }
-
-        .return-to-cart:hover {
-            color: #333;
-        }
-
-        .return-to-cart i {
-            margin-right: 8px;
-        }
-
         /* Адаптивность для мобильных устройств */
         @media (max-width: 768px) {
             .checkout-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .button {
+                padding: 10px 20px;
+                font-size: 14px;
             }
         }
     </style>
@@ -214,12 +222,12 @@
                     {{ form.address }}
                 </div>
 
-                <button type="submit" class="submit-button">
+                <button type="submit" class="button">
                     <i class="fas fa-check"></i> Оформить заказ
                 </button>
             </form>
 
-            <a href="{% url 'view_cart' %}" class="return-to-cart">
+            <a href="{% url 'view_cart' %}" class="button secondary">
                 <i class="fas fa-arrow-left"></i> Вернуться в корзину
             </a>
         </div>

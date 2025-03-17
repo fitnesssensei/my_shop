@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина</title>
     <style>
-
         /* Общие стили */
         body {
             font-family: Arial, sans-serif;
@@ -76,25 +75,54 @@
             margin: 5px 0;
         }
 
-        /* Кнопка удаления */
-        .remove-btn {
+        /* Общий стиль для всех кнопок */
+        .button {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #ff4444;
-            color: rgb(12, 1, 1);
+            padding: 20px 50px;
+            color: white;
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.2s ease;
-            border: none;
-            font-weight: normal;
-            margin: 10px;
-            font-size: 50px;
-            flex: 1;
+            border: 2px solid transparent;
+            font-weight: 500;
+            margin: 10px 0;
+            font-size: 18px;
+            text-align: center;
         }
-        /* кнопка удаления при наведении */
+
+        /* Стиль для кнопки удаления */
+        .remove-btn {
+            background-color: #ff4444;
+            border-color: #ff4444;
+            color: white;
+        }
+
         .remove-btn:hover {
-            background-color: rgb(192, 192, 192);
-            color: #ff4444;
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        /* Кнопка оформления заказа */
+        .checkout-btn {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .checkout-btn:hover {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        /* Кнопка возврата к списку товаров */
+        .button-yellow {
+            background-color: #FFD700; /* Желтый цвет */
+            border-color: #ffd700;
+            color: black; /* Черный текст */
+        }
+
+        .button-yellow:hover {
+            background-color: #93908c; /* Чуть темнее при наведении */
+            color: #ffdc16;
         }
 
         /* Итоговая сумма */
@@ -107,64 +135,12 @@
             font-weight: bold;
         }
 
-        /* Кнопки действий */
-        .action-buttons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .button-yellow {
-            display: inline-block;
-            padding: 20px 50px;
-            background-color: #FFD700;  /* Желтый цвет */
-            color: #000;  /* Черный текст */
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.2s ease;
-            border: none;
-            font-weight: 500;
-            margin: 10px 0;
-            font-size: 50px;
-            flex: 1;
-        }
-
-        .checkout-btn {
-            display: inline-block;
-            padding: 20px 50px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.2s ease;
-            border: 2px solid #4CAF50;
-            font-weight: 500;
-            text-align: center;
-            margin: 10px 0;
-            font-size: 50px;
-            flex: 1;
-        }
-
-        .button-yellow:hover {
-            background-color: #93908c;  /* Чуть темнее при наведении */
-            color: #ffdc16;
-            cursor: pointer;
-        }
-
-        .checkout-btn:hover {
-            background-color: white;
-            color: #4CAF50;
-            cursor: pointer;
-        }
-
         /* Пустая корзина */
         .empty-cart {
             text-align: center;
             padding: 40px 0;
             color: #666;
         }
-
     </style>
 </head>
 <body>
@@ -191,7 +167,7 @@
                         <p class="item-total">Итого за товар: {{ item.total|floatformat:2 }} руб.</p>
                     </div>    
                     <!-- Ссылка для удаления товара из корзины -->
-                    <a href="{% url 'remove_from_cart' product_id %}" class="remove-btn">Удалить из корзины</a>
+                    <a href="{% url 'remove_from_cart' product_id %}" class="button remove-btn">Удалить из корзины</a>
                 </div>
             {% endfor %}
 
@@ -200,16 +176,15 @@
             </div>
 
             <div class="action-buttons">
-                <a href="{% url 'product_list' %}" class="button-yellow">Вернуться к списку товаров</a>
-                <a href="{% url 'checkout' %}" class="checkout-btn">Оформить заказ</a>
+                <a href="{% url 'checkout' %}" class="button checkout-btn">Оформить заказ</a>
+                <a href="{% url 'product_list' %}" class="button button-yellow">Вернуться к списку товаров</a>
             </div>
         {% else %}
-
-        <div class="empty-cart">
-            <h2>Корзина пуста</h2>
-            <p>Добавьте товары из каталога</p>
-            <a href="{% url 'product_list' %}" class="button-yellow">Перейти к покупкам</a>
-        </div>
+            <div class="empty-cart">
+                <h2>Корзина пуста</h2>
+                <p>Добавьте товары из каталога</p>
+                <a href="{% url 'product_list' %}" class="button button-yellow">Перейти к покупкам</a>
+            </div>
         {% endif %}
     </div>
 </body>
