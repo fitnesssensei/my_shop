@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Shop{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <!-- Добавил форму поиска в header -->
+        <form class="search-form" action="{% url 'search_results' %}" method="GET">
+            <input type="text" name="q" placeholder="Поиск товаров...">
+            <button type="submit">Поиск</button>
+        </form>
+    </header>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

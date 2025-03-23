@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% extends 'base.html' %}  <!-- укажите ваш базовый шаблон -->
+
+{% block content %}
+
+<h1>Поиск</h1>
+
+<div class="search-results">
+    <h2>Результаты поиска: </h2>
+    {% if query %}
+        <p>Вы искали: "{{ query }}"</p>
+    {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <h3>{{ product.name }}</h3>
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% endif %}
+                    <p>{{ product.price }} руб.</p>
+                    <p>{{ product.description|truncatewords:20 }}</p>
+                    <a href="{% url 'product_detail' product.id %}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>По вашему запросу ничего не найдено.</p>
+    {% endif %}
+</div>
+{% endblock %}
