@@ -8,5 +8,6 @@ urlpatterns = [
     path('remove-from-cart/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('checkout/', views.checkout, name='checkout'),  # Новый маршрут оформления заказа
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),  # Новый URL для детальной страницы товара
+    path('search/', views.search_products, name='search_results'),  # маршрут для поиска
 ]
 

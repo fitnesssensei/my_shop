@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Q
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255)  # Название товара
@@ -9,6 +11,24 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.stock} в наличии)"  # теперь название + кол-во
+
+    @classmethod
+    def search(cls, query):
+        """
+        Метод для поиска товаров по названию и описанию
+        """
+        if query:
+            return cls.objects.filter(
+                Q(name__icontains=query) | 
+                Q(description__icontains=query)
+            ).distinct()
+        return cls.objects.none()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['description']),
+        ]
 
 
 class Order(models.Model):
@@ -30,3 +50,4 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.name} x {self.quantity}"
+    

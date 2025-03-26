@@ -1,32 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{% extends 'base.html' %}  <!-- укажите ваш базовый шаблон -->
+{% extends 'base.html' %}
 
 {% block content %}
+<div class="header">
+    <h1>ГОРЫ КНИГ</h1>
+</div>
+<div class="top-header">
+    <h1 class="site-title">Результаты поиска</h1>
+    <a href="{% url 'view_cart' %}" class="button">
+        <i class="fas fa-shopping-cart"></i>
+        Корзина
+        <span class="cart-counter">
+            {{ request.session.cart|length|default:0 }}
+        </span>
+    </a>
+</div>
+<div class="main-content">
+    <div class="search-info">
+        {% if query %}
+            <p>Результаты поиска для: <strong>"{{ query }}"</strong></p>
+        {% endif %}
+        <a href="{% url 'product_list' %}" class="button">Вернуться к каталогу</a>
+    </div>
 
-<h1>Поиск</h1>
-
-<div class="search-results">
-    <h2>Результаты поиска: </h2>
-    {% if query %}
-        <p>Вы искали: "{{ query }}"</p>
     {% if products %}
-        <div class="products-grid">
+        <div class="product-grid">
             {% for product in products %}
                 <div class="product-card">
-                    <h3>{{ product.name }}</h3>
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
                     {% endif %}
-                    <p>{{ product.price }} руб.</p>
-                    <p>{{ product.description|truncatewords:20 }}</p>
-                    <a href="{% url 'product_detail' product.id %}">Подробнее</a>
+                    
+                    <h2>
+                        <a href="{% url 'product_detail' product.id %}" class="product-name">
+                            {{ product.name }}
+                        </a>
+                    </h2>
+                    
+                    <p class="price">{{ product.price }} руб.</p>
+                    
+                    {% if product.stock > 0 %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="button">
+                            <i class="fas fa-cart-plus"></i>
+                            Добавить в корзину
+                        </a>
+                    {% else %}
+                        <div class="button out-of-stock">
+                            <i class="fas fa-times-circle"></i>
+                            Нет в наличии
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p>По вашему запросу ничего не найдено.</p>
+        <p>По вашему запросу ничего не найдено. Попробуйте изменить запрос.</p>
     {% endif %}
 </div>
 {% endblock %}

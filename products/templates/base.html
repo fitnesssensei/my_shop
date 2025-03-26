@@ -4,6 +4,7 @@
     <title>{% block title %}Shop{% endblock %}</title>
 </head>
 <body>
+    
     <header>
         <!-- Добавил форму поиска в header -->
         <form class="search-form" action="{% url 'search_results' %}" method="GET">
@@ -18,8 +19,11 @@
         {% endfor %}
     </ul>
     {% endif %}
+    
+    <main>
+        {% block content %}
 
-    {% block content %}
-    {% endblock %}
+        {% endblock %}
+    </main>
 </body>
 </html>

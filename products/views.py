@@ -3,10 +3,26 @@ from django.views.decorators.csrf import csrf_protect  # Добавил этот
 from .models import Product
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Product
-
-
 from django.shortcuts import render, get_object_or_404
 from .models import Product
+from django.db import connection
+
+
+def search_products(request):
+    query = request.GET.get('q', '')  # Получаем параметр 'q' из запроса
+    products = []
+    
+    if query:
+        products = Product.search(query)
+    
+    context = {
+        'query': query,
+        'products': products,
+        'search_performed': 'q' in request.GET,
+    }
+    
+    return render(request, 'products/search_results.html', context)
+
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
