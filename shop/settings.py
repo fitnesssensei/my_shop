@@ -86,10 +86,14 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # database
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dbmysql',          # имя базы данных
+        'USER': 'rustam',           # имя пользователя
+        'PASSWORD': 'MoreKnig25',   # пароль пользователя
+        'HOST': 'localhost',        # сервер базы данных
+        'PORT': '3306',             # порт MySQL (по умолчанию 3306)
+    }
 }
 
 # Password validation
